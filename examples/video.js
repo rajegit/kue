@@ -1,5 +1,6 @@
 var kue     = require( '../' )
-  , express = require( 'express' );
+  , express = require( 'express' ),
+    basicAuth = require('basic-auth-connect'); // I am not sure is its done already
 
 // create our job queue
 
@@ -47,8 +48,10 @@ function convertFrame( i, fn ) {
 }
 
 // start the UI
-var app = express.createServer();
-app.use( express.basicAuth( 'foo', 'bar' ) );
+// OLD var app = express.createServer(); // this is depereciated 
+var app = express();
+// OLD app.use( express.basicAuth( 'foo', 'bar' ) );
+app.use( basicAuth( 'foo', 'bar' ) );
 app.use( kue.app );
 app.listen( 3000 );
 console.log( 'UI started on port 3000' );
